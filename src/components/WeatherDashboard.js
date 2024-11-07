@@ -34,7 +34,7 @@ const WeatherDashboard = ({setBackgroundImage,backgroundImage}) => {
 
  
 
-  // City Image fetcher (wrapped in useCallback to prevent re-creation)
+  // City Image 
   const getCityImage = async (city) => {
     console.log('called',city);
     
@@ -70,14 +70,14 @@ const WeatherDashboard = ({setBackgroundImage,backgroundImage}) => {
     if (!favorites.includes(city)) {
       const updatedFavorites = [...favorites, city];
       setFavorites(updatedFavorites);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); // Save to localStorage
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); 
     }
   };
 
   const removeFavorite = (city) => {
     const updatedFavorites = favorites.filter(favCity => favCity !== city);
     setFavorites(updatedFavorites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); // Save to localStorage
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); 
   };
 
   useEffect(() => {
