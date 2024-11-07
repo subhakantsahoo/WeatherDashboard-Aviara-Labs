@@ -25,7 +25,7 @@ const Search = ({ setCity, fetchWeather }) => {
           backgroundColor: '#ffff',  
           color: 'black',                  
           padding: '5px',
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' // Adds a soft shadow
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' 
         }}/>
       <button onClick={handleSearch} style={{ marginLeft:'20px',height:'38px',width:'80px',textShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)' }}>Search</button>
     </div>

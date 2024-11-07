@@ -21,8 +21,8 @@ const Favorites = ({
             <li
               key={index}
               onClick={() => {
-                fetchWeather(city); // Fetch weather data
-                getCityImage(city); // Get city image
+                fetchWeather(city);
+                getCityImage(city);
                 setCity(city);
               }}
               style={{
