@@ -1,38 +1,118 @@
+
 .App {
   text-align: center;
+  flex: 1;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  justify-content: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+/* src/App.css */
+/* .weather-dashboard {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+} */
+
+.search input {
+  padding: 8px;
+  width: 70%;
+  margin-right: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.search button {
+  padding: 8px;
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Hover effect for Search Button */
+.search button:hover {
+  background-color: #45a049; /* Slightly darker green */
+}
+
+
+.weather-display, .favorites {
+  margin-top: 20px;
+}
+
+.forecast-cards {
+  display: flex;
+  justify-content: space-around;
+  /* background-color: #ffffff; */
+}
+
+.forecast-card {
+  position: relative; /* Ensure the pseudo-element can be positioned relative to the card */
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  width: 150px;
+  height: 150px;
+  background-color: #edddd6;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  border-top-right-radius: 12%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth zoom and shadow */
+}
+
+/* Blue color at the top-right corner */
+.forecast-card::after {
+  content: ''; /* Empty content for the pseudo-element */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px; /* Size of the top-right blue section */
+  height: 30px;
+  background-color: rgb(94, 138, 126); /* Greenish color */
+  border-top-right-radius: 50%; /* Rounded corner */
+}
+
+/* Hover effect to zoom in */
+.forecast-card:hover {
+  transform: scale(1.05); /* Slight zoom-in effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for better hover effect */
+  background-color: rgb(114, 145, 231);
+}
+
+/* Optional: Modify the color of the top-right corner on hover */
+.forecast-card:hover::after {
+  /* background-color: rgb(72, 102, 94);  */
+}
+
+
+.favorite-button {
+  padding: 8px 12px;
+  background-color: #ff6347; /* Tomato color */
   color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px; /* Space between favorite button and other elements */
 }
 
-.App-link {
-  color: #61dafb;
+/* Hover effect for Favorite Button */
+.favorite-button:hover {
+  background-color: #e6412b; /* Slightly darker tomato color */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.weatherDisplaySearch {
+  margin-top:10px;
+  font-weight:500;
+  font-size:14px
+}
+
+.weatherDisplaySearch:hover {
+  color: #4b5ec1  ;
 }
