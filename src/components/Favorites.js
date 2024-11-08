@@ -8,9 +8,40 @@ const Favorites = ({
   fetchWeather,
   getCityImage,
   city,
-  setCity
+  setCity,
+  weatherData,
+  unit
 }) => {
-  // console.log('city==>',city);
+  // console.log('weatherData==>',weatherData);
+
+  const getWeatherIcon = (description) => {
+    
+    if (!description) return "🌈";
+    switch (true) {
+      case description.includes("clear"):
+        return "☀️"; // Clear sky
+      case description.includes("cloud"):
+        return "☁️"; // Cloudy
+      case description.includes("rain"):
+        return "🌧️"; // Rainy
+      case description.includes("drizzle"):
+        return "🌦️"; // Drizzle
+      case description.includes("thunderstorm"):
+        return "⛈️"; // Thunderstorm
+      case description.includes("snow"):
+        return "❄️"; // Snow
+      case description.includes("mist"):
+      case description.includes("fog"):
+        return "🌫️"; // Mist or fog
+      default:
+        return "🌈"; // Default icon
+    }
+  };
+  console.log('weatherData==>',weatherData);
+  
+  // const weatherIcon = getWeatherIcon(
+  //   weatherData?.weather[0].description.toLowerCase()
+  // );
 
   return (
     <div className="favorites">
@@ -21,9 +52,9 @@ const Favorites = ({
             <li
               key={index}
               onClick={() => {
-                fetchWeather(city);
-                getCityImage(city);
-                setCity(city);
+                fetchWeather(city.name);
+                getCityImage(city.name);
+                setCity(city.name);
               }}
               style={{
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -35,12 +66,42 @@ const Favorites = ({
                 cursor: "pointer",
               }}
             >
-              <span style={{ marginLeft: "5px", color: "#fff" }}>
-                {city.charAt(0).toUpperCase() + city.slice(1)}
+              <span style={{ marginLeft: "5px", color: "#fff",fontSize:'16px',fontWeight:'bold' }}>
+                {city.name}
               </span>
-              {/* <span>{weatherData.weather[0].description} {weatherIcon}</span> */}
-              <button
-                onClick={() => removeFavorite(city)}
+              
+              <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              flex: 1,
+              justifyContent: 'center',
+              color: "white",
+              textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+            }}>
+              <span>
+                {city?.weather[0].description.charAt(0).toUpperCase() + 
+                 city?.weather[0].description.slice(1)}
+              </span>
+              <span style={{ fontSize: '20px' }}>
+                {getWeatherIcon(city?.weather[0].description.toLowerCase())}
+              </span>
+              <span
+            style={{
+              textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+              color: "white",
+              fontSize: "18px",
+            }}
+          >
+            {city?.main.temp} °{unit === "metric" ? "C" : "F"}
+          </span>
+            </div>
+
+        
+                    <button
+                onClick={() =>{
+                  return removeFavorite(city.name)}
+                  }
                 style={{
                   backgroundColor: "red",
                   border: "1px solid gray",
@@ -67,7 +128,7 @@ const Favorites = ({
       </ul>
       <button
         className="favorite-button"
-        onClick={() => addFavorite(city)}
+        onClick={() => addFavorite(weatherData)}
         style={{
           fontWeight: "500",
           fontSize: "14px",

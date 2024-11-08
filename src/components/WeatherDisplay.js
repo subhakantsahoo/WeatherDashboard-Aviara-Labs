@@ -1,15 +1,10 @@
 // src/components/WeatherDisplay.js
 import React from "react";
 import "../App.css";
-const WeatherDisplay = ({
-  weatherData,
-  forecastData,
-  unit,
-  setUnit,
-}) => {
+const WeatherDisplay = ({ weatherData, forecastData, unit, setUnit }) => {
   if (!weatherData)
     return (
-      <div className="weatherDisplaySearch">
+      <div className="weatherDisplaySearch" style={{ textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black' }}>
         Search for a city to display weather data.
       </div>
     );
@@ -40,37 +35,68 @@ const WeatherDisplay = ({
     }
   };
 
-  const weatherIcon = getWeatherIcon(weatherData.weather[0].description.toLowerCase());
+  const weatherIcon = getWeatherIcon(
+    weatherData.weather[0].description.toLowerCase()
+  );
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'short' });
+  
+    return `${day} ${month}`;
+  };
 
   return (
     <div className="weather-display">
-      <div className="current-weather" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <h2 style={{ textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black' }}>
+      <div
+        className="current-weather"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <h2
+          style={{
+            textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+            color: "black",
+          }}
+        >
           {weatherData.name}
         </h2>
-        <div style={{ justifyContent: "space-between",flexDirection:'row',display:'flex',width:'25%',alignContent:'center',alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.3)', }}> 
-        <p
+        <div
           style={{
-            textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black',
-            fontWeight: "bold",
-            fontSize: "18px",
+            justifyContent: "space-between",
+            flexDirection: "row",
+            display: "flex",
+            width: "25%",
+            alignContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
           }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "rgb(0, 0, 0, 0.5)")}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "rgba(0, 0, 0, 0.3)")}
         >
-          {weatherData.weather[0].description} {weatherIcon}
-        </p>
-        {/* <p style={{ textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black', color: '#ffffffff', fontWeight: "bold", fontSize: "18px" }}>
-            {weatherIcon}
-          </p> */}
-        <p
-          style={{
-            textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black',
-            // color:'#ffffffff',
-            fontSize: "18px",
-          }}
-        >
-          {weatherData.main.temp} °{unit === "metric" ? "C" : "F"}
-        </p>
+          <p
+            style={{
+              textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+              marginLeft: "5px",
+               color: "#fff",fontSize:'16px',fontWeight:'bold'
+            }}
+          >
+            {weatherData.weather[0].description.charAt(0).toUpperCase() + weatherData.weather[0].description.slice(1)} {weatherIcon}
+          </p>
+
+          <p
+            style={{
+              textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+              marginLeft: "5px",
+               color: "#fff",fontSize:'16px',fontWeight:'bold'
+            }}
+          >
+            {weatherData.main.temp} °{unit === "metric" ? "C" : "F"}
+          </p>
         </div>
         <button
           onClick={toggleUnit}
@@ -96,26 +122,64 @@ const WeatherDisplay = ({
         </button>
       </div>
       <div className="forecast">
-        <h3 style={{  textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black', }}>
-          5-Day Forecast
-        </h3>
+        <div
+          style={{
+            // textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+            //  color: "#fff",fontSize:'16px',fontWeight:'bold',
+            //  backgroundColor: "rgba(0, 0, 0, 0.7)",
+          }}
+        >
+          <h3  style={{
+            textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+             color: "#fff",fontSize:'16px',fontWeight:'bold',
+            //  backgroundColor: "rgba(0, 0, 0, 0.7)",
+          }}> 5-Day Forecast</h3>
+         
+        </div>
         <div className="forecast-cards">
-          {forecastData.map((day, index) => (
-            <div key={index} className="forecast-card">
-              <div style={{ height:'20px' }}>
-                <p>{new Date(day.dt_txt).toLocaleDateString()}</p>
+          {forecastData.map((day, index) => {
+            return (
+              <div key={index} className="forecast-card">
+                <div style={{ height: "20px" }}>
+                  {/* <p>{new Date(day.dt_txt).toLocaleDateString()}</p> */}
+                  <p>{formatDate(day.dt_txt)}</p>
+                </div>
+                <div
+                  style={{
+                    height: "40px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                    marginTop: "20px",
+                  }}
+                >
+                  <p>{day.weather[0].description}</p>
+                  <p
+                    style={{
+                      textShadow: "2px 2px 5px rgba(255, 255, 255, 0.7)",
+                      color: "black",
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                      marginLeft: "5px",
+                    }}
+                  >
+                    {weatherIcon}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <p>
+                    {day.main.temp} °{unit === "metric" ? "C" : "F"}
+                  </p>
+                </div>
               </div>
-              <div style={{ height:'40px',justifyContent:'center',alignItems:'center',display:'flex',marginTop:'20px'}}>
-                <p>{day.weather[0].description}</p>
-                <p style={{  textShadow: '2px 2px 5px rgba(255, 255, 255, 0.7)', color: 'black',  fontWeight: "bold", fontSize: "18px",marginLeft:'5px' }}>
-            {weatherIcon}
-          </p>
-              </div>
-              <div style={{ justifyContent:'center',alignItems:'center',display:'flex'}}>
-                <p>{day.main.temp} °{unit === "metric" ? "C" : "F"}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
