@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="App"  style={{
-      backgroundImage: `url(${backgroundImage || 'https://img.freepik.com/free-vector/purple-blue-light-gradient-background_78370-2172.jpg?t=st=1731014030~exp=1731017630~hmac=93511e82e198709d4e6a4a1d447d6f585f937704a5ebfda0f1510f4e2d620a5e&w=1380'})`,
+      backgroundImage: `url(${backgroundImage || 'https://img.freepik.com/free-photo/futuristic-dubai-landscape_23-2151339730.jpg?t=st=1731052926~exp=1731056526~hmac=6d6660e0dd53870cbcb674e5eca6e4685eac97ead9753ae84784bcc2b90062b7&w=1380'})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }}>

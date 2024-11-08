@@ -10,7 +10,6 @@ const WeatherDashboard = ({setBackgroundImage,backgroundImage}) => {
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState([]);
   const [favorites, setFavorites] = useState([
-    "city"
   ]);
   const [unit, setUnit] = useState('metric'); // Celsius by default
   // const [backgroundImage, setBackgroundImage] = useState('');
@@ -18,15 +17,25 @@ const WeatherDashboard = ({setBackgroundImage,backgroundImage}) => {
   const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
   const UNSPLASH_ACCESS_KEY = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
 
-  console.log('unnit---->',favorites);
+  // console.log('unnit---->',favorites);
   
   // Fetch current weather and forecast data
   const fetchWeather = async (city,unit) => {
     try {
       const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=${unit}`);
       const forecastResponse = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=${unit}`);
+      console.log('water-=/>',weatherResponse);
+      console.log('formcdpcp[ppp>',forecastResponse);
+      
       setWeatherData(weatherResponse.data);
-      setForecastData(forecastResponse.data.list.slice(0, 5)); // 5-day forecast
+      const forecastData = forecastResponse.data.list;
+      let dailyForecast = [];
+      for (let i = 1; i <= 5; i++) {
+        dailyForecast.push(forecastData[i * 8 - 1]);  // i*8 - 1 to get the last forecast of the first day and the next days
+      }
+      
+      setForecastData(dailyForecast);
+ // 5-day forecast
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
@@ -65,21 +74,25 @@ const WeatherDashboard = ({setBackgroundImage,backgroundImage}) => {
     }
   }, [city,unit]); 
 
-
-  const addFavorite = (city) => {
-    if (!favorites.includes(city)) {
-      const updatedFavorites = [...favorites, city];
+  // console.log('favorites===-=-=-==>',favorites);
+  
+  const addFavorite = (x) => {
+    if (!favorites.includes(x)) {
+      const updatedFavorites = [...favorites, x,];
       setFavorites(updatedFavorites);
       localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); 
     }
   };
 
-  const removeFavorite = (city) => {
-    const updatedFavorites = favorites.filter(favCity => favCity !== city);
+  const removeFavorite = (x) => {
+    console.log('called--->',x);
+    
+    const updatedFavorites = favorites.filter(favCity => favCity.name !== x);
     setFavorites(updatedFavorites);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); 
   };
-
+  console.log('favorites--->',favorites);
+  
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
@@ -93,7 +106,7 @@ const WeatherDashboard = ({setBackgroundImage,backgroundImage}) => {
 
       <Search setCity={setCity} fetchWeather={fetchWeather} />
       <WeatherDisplay weatherData={weatherData} forecastData={forecastData} unit={unit} setUnit={setUnit} imageUrl={backgroundImage} />
-      <Favorites favorites={favorites} addFavorite={addFavorite} removeFavorite={removeFavorite} fetchWeather={fetchWeather} getCityImage={getCityImage} city={city}setCity={setCity} />
+      <Favorites favorites={favorites} addFavorite={addFavorite} removeFavorite={removeFavorite} fetchWeather={fetchWeather} getCityImage={getCityImage} city={city}setCity={setCity} weatherData={weatherData} unit={unit} />
     </div>
   );
 };
